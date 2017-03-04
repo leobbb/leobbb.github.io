@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Leo Blog</title>
+  <subtitle>Thinking in big.</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yzx.space/"/>
+  <updated>2017-03-04T14:10:21.672Z</updated>
+  <id>http://yzx.space/</id>
+  
+  <author>
+    <name>Leo Yan</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>修改Ubuntu系统环境变量PATH</title>
+    <link href="http://yzx.space/p/20160422P2.html"/>
+    <id>http://yzx.space/p/20160422P2.html</id>
+    <published>2016-04-22T13:47:04.000Z</published>
+    <updated>2017-03-04T14:10:21.672Z</updated>
+    
+    <content type="html"><![CDATA[<p>在linux系统中，如果安装了新的软件包，或者需要添加自定义的命令目录，可能需要手动修改环境变量 <code>$PATH</code>。</p>
+<p>在 Ubuntu 中修改文件 <code>~/.bashrc</code>，在文件中添加如下命令即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># set PATH so it includes other bins if it exists</span></div><div class="line"><span class="keyword">if</span> [ <span class="_">-d</span> <span class="string">"<span class="variable">$HOME</span>/custom/bin/"</span> ] ; <span class="keyword">then</span></div><div class="line">    PATH=<span class="string">"<span class="variable">$HOME</span>/custom/bin/:<span class="variable">$PATH</span>"</span></div><div class="line"><span class="keyword">fi</span></div></pre></td></tr></table></figure>
+<p>[ The end ]</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在linux系统中，如果安装了新的软件包，或者需要添加自定义的命令目录，可能需要手动修改环境变量 &lt;code&gt;$PATH&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;在 Ubuntu 中修改文件 &lt;code&gt;~/.bashrc&lt;/code&gt;，在文件中添加如下命令即可：&lt;/p&gt;
+&lt;figu
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="http://yzx.space/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="http://yzx.space/tags/ubuntu/"/>
+    
+      <category term="PATH" scheme="http://yzx.space/tags/PATH/"/>
+    
+      <category term="bash" scheme="http://yzx.space/tags/bash/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>转换文件格式 - Dos&lt;=&gt;unix</title>
+    <link href="http://yzx.space/p/20160422P1.html"/>
+    <id>http://yzx.space/p/20160422P1.html</id>
+    <published>2016-04-22T09:17:37.000Z</published>
+    <updated>2017-03-04T14:10:21.676Z</updated>
+    
+    <content type="html"><![CDATA[<p>在linux和Windows 系统之间传递文件，由于处理文件的格式不同会遇到转换的问题。<br>最常见的问题是由换行符不同导致的。</p>
+<ul>
+<li>类unix 系统使用 <code>&lt;LF&gt;</code> 表示换行；</li>
+<li>windows 和 MS-dos 系统使用 <code>&lt;CR&gt;&lt;LF&gt;</code> 表示换行；</li>
+<li>mac 系统使用 <code>&lt;CR&gt;</code> 表示换行。</li>
+</ul>
+<p>如果使用 Windows 系统直接查看 linux 系统中创建的文件，会发现文件内容没有正确换行。而反过来，也会遇到类似问题, 可能在行尾看到符号 <code>^M</code>。<br>如果在 linux 系统中，使用 <strong>Vim</strong> 查看文件，则可以正常查看和编辑文件。因为 Vim 会自动识别文件的格式。正因为如此，我们可以利用 Vim 方便快速的转换文件。</p>
+<a id="more"></a>
+<p>方法是：使用 vim 打开文件，设置 <code>fileformat</code> 即可。</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>vim /tmp/test.txt</div><div class="line"></div><div class="line"><span class="symbol">:set</span> fileformat=unix</div><div class="line"><span class="symbol">:write</span></div></pre></td></tr></table></figure>
+<p>你应该知道在 vim 中如何执行上述命令吧，记得在输入命令之前按 <code>Esc</code> ，并且注意将输入法切换为英文。</p>
+<hr>
+<p>下面简要说明 Vim 文件格式的相关问题。</p>
+<h2 id="查看文件格式"><a href="#查看文件格式" class="headerlink" title="查看文件格式"></a>查看文件格式</h2><p>在 linux 系统中创建的普通文件都是使用 <code>&lt;LF&gt;</code> 做为换行符的，暂且称之为“unix 格式”。在 vim 中可以通过以下命令查看文件的格式。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">:<span class="built_in">set</span> fileformat?</div></pre></td></tr></table></figure>
+<p>通常会显示 <code>fileformat=unix</code>。</p>
+<p>当遇到使用 <code>&lt;CR&gt;&lt;LF&gt;</code> 做为换行符的 Windows系统文件时，vim 会自动识别，并在文件名后面注明，显示如下。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"/tmp/test"</span>  [dos] <span class="number">3</span>L, <span class="number">71</span>C</div></pre></td></tr></table></figure>
+<h2 id="更改-vim-可以自动识别的格式"><a href="#更改-vim-可以自动识别的格式" class="headerlink" title="更改 vim 可以自动识别的格式"></a>更改 vim 可以自动识别的格式</h2><p>可以更改 vim 可以自动识别的格式的集合。如下命令让 vim 可以自动识别 unix 格式和 MS-Dos 格式。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">:<span class="built_in">set</span> fileformats=unix,dos</div></pre></td></tr></table></figure>
+<p>[ The end ]</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在linux和Windows 系统之间传递文件，由于处理文件的格式不同会遇到转换的问题。&lt;br&gt;最常见的问题是由换行符不同导致的。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;类unix 系统使用 &lt;code&gt;&amp;lt;LF&amp;gt;&lt;/code&gt; 表示换行；&lt;/li&gt;
+&lt;li&gt;windows 和 MS-dos 系统使用 &lt;code&gt;&amp;lt;CR&amp;gt;&amp;lt;LF&amp;gt;&lt;/code&gt; 表示换行；&lt;/li&gt;
+&lt;li&gt;mac 系统使用 &lt;code&gt;&amp;lt;CR&amp;gt;&lt;/code&gt; 表示换行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果使用 Windows 系统直接查看 linux 系统中创建的文件，会发现文件内容没有正确换行。而反过来，也会遇到类似问题, 可能在行尾看到符号 &lt;code&gt;^M&lt;/code&gt;。&lt;br&gt;如果在 linux 系统中，使用 &lt;strong&gt;Vim&lt;/strong&gt; 查看文件，则可以正常查看和编辑文件。因为 Vim 会自动识别文件的格式。正因为如此，我们可以利用 Vim 方便快速的转换文件。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="vim" scheme="http://yzx.space/tags/vim/"/>
+    
+      <category term="^M" scheme="http://yzx.space/tags/M/"/>
+    
+      <category term="文件转换" scheme="http://yzx.space/tags/%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo 使用笔记</title>
+    <link href="http://yzx.space/p/20160408P1.html"/>
+    <id>http://yzx.space/p/20160408P1.html</id>
+    <published>2016-04-08T13:12:39.000Z</published>
+    <updated>2017-03-04T14:10:21.669Z</updated>
+    
+    <content type="html"><![CDATA[<p>使用hexo 错误处理</p>
+<p>使用 npm up 进行升级之后，hexo可能报错，<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">FATAL Something<span class="string">'s wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.html</span></div><div class="line">Error: Console `help` has not been registered yet!</div><div class="line">at D:\Leo\myweb\hexo1\node_modules\hexo\lib\hexo\index.js:194:14</div><div class="line">at Promise._execute (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\debuggability.js:272:9)</div><div class="line">at Promise._resolveFromExecutor (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\promise.js:474:18)</div><div class="line">at new Promise (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\promise.js:77:14)</div><div class="line">at Hexo.call (D:\Leo\myweb\hexo1\node_modules\hexo\lib\hexo\index.js:188:10)</div><div class="line">at runHexoCommand (C:\Users\Lenovo\AppData\Roaming\npm\node_modules\hexo-cli\lib\index.js:58:17)</div><div class="line">at tryCatcher (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\util.js:16:23)</div><div class="line">at Promise._settlePromiseFromHandler (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\promise.js:503:31)</div><div class="line">at Promise._settlePromise (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\promise.js:560:18)</div><div class="line">at Promise._settlePromise0 (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\promise.js:605:10)</div><div class="line">at Promise._settlePromises (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\promise.js:684:18)</div><div class="line">at Async._drainQueue (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\async.js:126:16)</div><div class="line">at Async._drainQueues (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\async.js:136:10)</div><div class="line">at Immediate.Async.drainQueues [as _onImmediate] (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\async.js:16:14)</div><div class="line">at processImmediate [as _immediateCallback] (timers.js:374:17)</div></pre></td></tr></table></figure></p>
+<p>看不懂这个错误是啥，只能用最笨的办法。推倒重来。<br><a id="more"></a></p>
+<p>此时，重新建立新的网站目录，再把当前网站的内容复制到新的目录。<br>在做初始化之前，需要先保存当前对网站的修改，包括文章，草稿，以及对模板的修改等。</p>
+<p>有以下文件及目录：<br>_config.yml  package.json  scaffolds/  source /  themes/</p>
+<p>直接将原来网站的上述文件和目录，复制并覆盖新建的网站目录。</p>
+<p>还需要添加一些自定义的插件。比如git、feed、rss等。</p>
+<p>安装git，在网站根目录执行以下语句：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
+<hr>
+<p>为了利于查看修改记录，并且防止我们的数据丢失 ，最好使用版本控制软件对文件进行跟踪管理。</p>
+<p>把记录上传的免费的服务器上，当做数据的备份。</p>
+<p>这里使用git 跟踪管理文件的版本，在网站根目录建立版本库。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git init</div><div class="line">git add .</div><div class="line">git commit -m <span class="string">"initial commit"</span></div></pre></td></tr></table></figure>
+<p>可以将git库push到github，或者其他的免费git网络服务。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;使用hexo 错误处理&lt;/p&gt;
+&lt;p&gt;使用 npm up 进行升级之后，hexo可能报错，&lt;br&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;16&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;17&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;FATAL Something&lt;span class=&quot;string&quot;&gt;&#39;s wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.html&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;Error: Console `help` has not been registered yet!&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at D:\Leo\myweb\hexo1\node_modules\hexo\lib\hexo\index.js:194:14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at Promise._execute (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\debuggability.js:272:9)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at Promise._resolveFromExecutor (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\promise.js:474:18)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at new Promise (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\promise.js:77:14)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at Hexo.call (D:\Leo\myweb\hexo1\node_modules\hexo\lib\hexo\index.js:188:10)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at runHexoCommand (C:\Users\Lenovo\AppData\Roaming\npm\node_modules\hexo-cli\lib\index.js:58:17)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at tryCatcher (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\util.js:16:23)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at Promise._settlePromiseFromHandler (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\promise.js:503:31)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at Promise._settlePromise (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\promise.js:560:18)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at Promise._settlePromise0 (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\promise.js:605:10)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at Promise._settlePromises (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\promise.js:684:18)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at Async._drainQueue (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\async.js:126:16)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at Async._drainQueues (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\async.js:136:10)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at Immediate.Async.drainQueues [as _onImmediate] (D:\Leo\myweb\hexo1\node_modules\hexo\node_modules\bluebird\js\release\async.js:16:14)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;at processImmediate [as _immediateCallback] (timers.js:374:17)&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;看不懂这个错误是啥，只能用最笨的办法。推倒重来。&lt;br&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Android Studio 相关资源</title>
+    <link href="http://yzx.space/p/20160407P0.html"/>
+    <id>http://yzx.space/p/20160407P0.html</id>
+    <published>2016-04-07T12:44:20.000Z</published>
+    <updated>2017-03-04T14:10:21.664Z</updated>
+    
+    <content type="html"><![CDATA[<p>尝试了很多次，都没有把 Android Studio 配置好，搭建一个 Android 开发环境好难啊。</p>
+<p>不管有多艰辛，多尝试几次，最终能做好吧。</p>
+<p>1 下载 Android Studio<br>  推荐两个网站<br>  ·· Android Studio 中文社区 <a href="http://www.android-studio.org/index.php" target="_blank" rel="external">http://www.android-studio.org/index.php</a><br>  ·· AndroidDevTools  <a href="http://www.androiddevtools.cn/" target="_blank" rel="external">http://www.androiddevtools.cn/</a></p>
+<p>  此时，我使用的稳定版（1.5）。</p>
+<p>2 使用镜像服务器<br>  在网站 AndroidDevTools 中提供了多个镜像服务器，这里使用“腾讯Bugly 镜像”。可以根据官方提供的使用方法配置。<a href="http://android-mirror.bugly.qq.com:8080/include/usage.html" target="_blank" rel="external">http://android-mirror.bugly.qq.com:8080/include/usage.html</a></p>
+<p>  既可以在“Android SDK”中使用，也可以在“Android Studio”中使用。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;尝试了很多次，都没有把 Android Studio 配置好，搭建一个 Android 开发环境好难啊。&lt;/p&gt;
+&lt;p&gt;不管有多艰辛，多尝试几次，最终能做好吧。&lt;/p&gt;
+&lt;p&gt;1 下载 Android Studio&lt;br&gt;  推荐两个网站&lt;br&gt;  ·· Android S
+    
+    </summary>
+    
+    
+      <category term="Android studio" scheme="http://yzx.space/tags/Android-studio/"/>
+    
+      <category term="download" scheme="http://yzx.space/tags/download/"/>
+    
+      <category term="下载" scheme="http://yzx.space/tags/%E4%B8%8B%E8%BD%BD/"/>
+    
+      <category term="镜像" scheme="http://yzx.space/tags/%E9%95%9C%E5%83%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Go Write</title>
+    <link href="http://yzx.space/p/20150930P1.html"/>
+    <id>http://yzx.space/p/20150930P1.html</id>
+    <published>2015-09-30T01:13:00.000Z</published>
+    <updated>2017-03-04T14:10:21.679Z</updated>
+    
+    <content type="html"><![CDATA[<p>工作和生活总是纷繁，被时间推着走甚是疲惫。小时候乐此不疲的奔跑玩耍，停不下来；而现在总想找回一点安静，停下来，让身心放松。</p>
+<p>安静，沉思，冥想，沉淀。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;工作和生活总是纷繁，被时间推着走甚是疲惫。小时候乐此不疲的奔跑玩耍，停不下来；而现在总想找回一点安静，停下来，让身心放松。&lt;/p&gt;
+&lt;p&gt;安静，沉思，冥想，沉淀。&lt;/p&gt;
+
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
